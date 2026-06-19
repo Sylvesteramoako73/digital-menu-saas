@@ -50,10 +50,10 @@ export default function PublicMenuPage({ slug: slugProp }: { slug?: string }) {
     <div className={`min-h-screen bg-red-700 pb-safe-offset ${count > 0 ? "pb-24" : ""}`}>
       {loading || !menu ? (
         <div className="animate-pulse">
-          <div className="bg-white px-4 pt-6 pb-4">
+          <div className="bg-black px-4 pt-6 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-16 h-16 rounded-full bg-neutral-200" />
-              <div className="h-5 w-40 rounded bg-neutral-200" />
+              <div className="w-16 h-16 rounded-full bg-neutral-800" />
+              <div className="h-5 w-40 rounded bg-neutral-800" />
             </div>
           </div>
           <div className="pt-4">
