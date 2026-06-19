@@ -53,22 +53,22 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black pb-8">
-      <div className="flex items-center gap-3 px-4 pt-4 pb-3 border-b border-neutral-900">
+    <div className="min-h-screen bg-white pb-8">
+      <div className="flex items-center gap-3 px-4 pt-4 pb-3 border-b border-neutral-200">
         <button
           type="button"
           onClick={handleBack}
-          className="h-12 w-12 flex items-center justify-center rounded-full bg-neutral-900 text-white shrink-0"
+          className="h-12 w-12 flex items-center justify-center rounded-full bg-neutral-100 text-red-900 shrink-0"
           aria-label="Back to cart"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-lg font-bold text-white">Checkout</h1>
+        <h1 className="text-lg font-bold text-red-900">Checkout</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="px-4 pt-4 space-y-5">
         <div>
-          <label className="block text-sm text-neutral-300 mb-1.5" htmlFor="customer_name">
+          <label className="block text-sm text-neutral-600 mb-1.5" htmlFor="customer_name">
             Your name
           </label>
           <input
@@ -77,13 +77,13 @@ export default function CheckoutPage() {
             required
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
-            className="w-full h-12 px-4 text-base rounded-xl bg-neutral-900 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
+            className="w-full h-12 px-4 text-base rounded-xl bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-600"
             placeholder="Ama Asante"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-neutral-300 mb-1.5" htmlFor="customer_phone">
+          <label className="block text-sm text-neutral-600 mb-1.5" htmlFor="customer_phone">
             Phone number
           </label>
           <input
@@ -92,13 +92,13 @@ export default function CheckoutPage() {
             required
             value={customerPhone}
             onChange={(e) => setCustomerPhone(e.target.value)}
-            className="w-full h-12 px-4 text-base rounded-xl bg-neutral-900 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
+            className="w-full h-12 px-4 text-base rounded-xl bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-600"
             placeholder="024 123 4567"
           />
         </div>
 
         <div>
-          <span className="block text-sm text-neutral-300 mb-1.5">Fulfillment</span>
+          <span className="block text-sm text-neutral-600 mb-1.5">Fulfillment</span>
           <div className="flex gap-2">
             {(["pickup", "delivery"] as const).map((type) => (
               <button
@@ -108,7 +108,7 @@ export default function CheckoutPage() {
                 className={`flex-1 h-12 rounded-xl text-base font-medium capitalize ${
                   fulfillmentType === type
                     ? "bg-red-600 text-white"
-                    : "bg-neutral-900 text-neutral-400 border border-neutral-800"
+                    : "bg-white text-neutral-600 border border-neutral-200"
                 }`}
               >
                 {type}
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
 
         {fulfillmentType === "delivery" && (
           <div>
-            <label className="block text-sm text-neutral-300 mb-1.5" htmlFor="delivery_address">
+            <label className="block text-sm text-neutral-600 mb-1.5" htmlFor="delivery_address">
               Delivery address
             </label>
             <input
@@ -128,28 +128,28 @@ export default function CheckoutPage() {
               required
               value={deliveryAddress}
               onChange={(e) => setDeliveryAddress(e.target.value)}
-              className="w-full h-12 px-4 text-base rounded-xl bg-neutral-900 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
+              className="w-full h-12 px-4 text-base rounded-xl bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-red-600"
               placeholder="House number, street, landmark"
             />
           </div>
         )}
 
-        <div className="rounded-xl bg-neutral-900 p-4 space-y-2">
+        <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4 space-y-2">
           {items.map((item) => (
             <div key={item.menu_item_id} className="flex items-center justify-between text-sm">
-              <span className="text-white/80 truncate pr-3">
+              <span className="text-neutral-600 truncate pr-3">
                 {item.quantity} × {item.name}
               </span>
-              <span className="text-white shrink-0">₵{(Number(item.price) * item.quantity).toFixed(2)}</span>
+              <span className="text-neutral-900 shrink-0">₵{(Number(item.price) * item.quantity).toFixed(2)}</span>
             </div>
           ))}
-          <div className="flex items-center justify-between pt-2 border-t border-neutral-800">
-            <span className="text-white font-semibold">Subtotal</span>
-            <span className="text-white font-bold">₵{subtotal.toFixed(2)}</span>
+          <div className="flex items-center justify-between pt-2 border-t border-neutral-200">
+            <span className="text-red-900 font-semibold">Subtotal</span>
+            <span className="text-red-900 font-bold">₵{subtotal.toFixed(2)}</span>
           </div>
         </div>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
 
         <button
           type="submit"

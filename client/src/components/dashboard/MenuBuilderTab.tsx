@@ -102,13 +102,15 @@ function CategoryAccordion({
   onDelete: () => void;
   onChanged: () => Promise<void>;
 }) {
-  const [newItem, setNewItem] = useState({ name: "", description: "", price: "", image_url: "" });
+  const [newItem, setNewItem] = useState({ name: "", description: "", price: "", originalPrice: "", image_url: "" });
   const [addingItem, setAddingItem] = useState(false);
+  const [itemError, setItemError] = useState<string | null>(null);
 
   async function handleAddItem(e: FormEvent) {
     e.preventDefault();
     if (!newItem.name.trim() || !newItem.price) return;
     setAddingItem(true);
+    setItemError(null);
     try {
       await apiFetch("/menu-items", {
         method: "POST",
@@ -117,11 +119,14 @@ function CategoryAccordion({
           name: newItem.name,
           description: newItem.description || undefined,
           price: Number(newItem.price),
+          original_price: newItem.originalPrice ? Number(newItem.originalPrice) : undefined,
           image_url: newItem.image_url || undefined,
         }),
       });
-      setNewItem({ name: "", description: "", price: "", image_url: "" });
+      setNewItem({ name: "", description: "", price: "", originalPrice: "", image_url: "" });
       await onChanged();
+    } catch (err) {
+      setItemError(err instanceof Error ? err.message : "Failed to add item");
     } finally {
       setAddingItem(false);
     }
@@ -163,7 +168,12 @@ function CategoryAccordion({
             <div key={item.id} className="flex items-center justify-between gap-3 py-2 border-b border-neutral-800 last:border-b-0">
               <div className="min-w-0">
                 <p className="text-sm font-medium text-white truncate">{item.name}</p>
-                <p className="text-xs text-neutral-500">₵{Number(item.price).toFixed(2)}</p>
+                <p className="text-xs text-neutral-500">
+                  ₵{Number(item.price).toFixed(2)}
+                  {item.original_price && (
+                    <span className="line-through ml-1.5">₵{Number(item.original_price).toFixed(2)}</span>
+                  )}
+                </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <button
@@ -212,12 +222,22 @@ function CategoryAccordion({
               className="h-11 px-3 text-base rounded-lg bg-neutral-950 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
             />
             <input
+              type="number"
+              step="0.01"
+              min="0"
+              value={newItem.originalPrice}
+              onChange={(e) => setNewItem((i) => ({ ...i, originalPrice: e.target.value }))}
+              placeholder="Original price (optional)"
+              className="h-11 px-3 text-base rounded-lg bg-neutral-950 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
+            />
+            <input
               type="text"
               value={newItem.image_url}
               onChange={(e) => setNewItem((i) => ({ ...i, image_url: e.target.value }))}
               placeholder="Image URL"
-              className="h-11 px-3 text-base rounded-lg bg-neutral-950 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
+              className="col-span-2 h-11 px-3 text-base rounded-lg bg-neutral-950 border border-neutral-800 text-white placeholder:text-neutral-500 focus:outline-none focus:border-red-500"
             />
+            {itemError && <p className="col-span-2 text-sm text-red-400">{itemError}</p>}
             <button
               type="submit"
               disabled={addingItem}

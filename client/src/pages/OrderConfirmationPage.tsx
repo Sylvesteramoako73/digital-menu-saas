@@ -71,17 +71,17 @@ export default function OrderConfirmationPage() {
 
   if (error && !order) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 gap-4">
-        <XCircle size={48} className="text-red-500" />
-        <p className="text-neutral-400 text-center">{error}</p>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 gap-4">
+        <XCircle size={48} className="text-red-600" />
+        <p className="text-neutral-500 text-center">{error}</p>
       </div>
     );
   }
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <p className="text-neutral-400">Loading order...</p>
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <p className="text-neutral-500">Loading order...</p>
       </div>
     );
   }
@@ -90,12 +90,12 @@ export default function OrderConfirmationPage() {
   const isCancelled = order.status === "cancelled";
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 py-12 text-center">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12 text-center">
       {isConfirmed && (
         <>
-          <CheckCircle2 size={56} className="text-green-500 mb-4" />
-          <h1 className="text-xl font-bold text-white">Order placed!</h1>
-          <p className="text-neutral-400 mt-2">
+          <CheckCircle2 size={56} className="text-green-600 mb-4" />
+          <h1 className="text-xl font-bold text-red-900">Order placed!</h1>
+          <p className="text-neutral-500 mt-2">
             {order.vendor?.business_name ?? "The vendor"} is preparing your order.
           </p>
         </>
@@ -103,17 +103,17 @@ export default function OrderConfirmationPage() {
 
       {!isConfirmed && !isCancelled && !timedOut && (
         <>
-          <Clock size={56} className="text-amber-500 mb-4 animate-pulse" />
-          <h1 className="text-xl font-bold text-white">Confirming payment...</h1>
-          <p className="text-neutral-400 mt-2">This usually takes a few seconds.</p>
+          <Clock size={56} className="text-orange-600 mb-4 animate-pulse" />
+          <h1 className="text-xl font-bold text-red-900">Confirming payment...</h1>
+          <p className="text-neutral-500 mt-2">This usually takes a few seconds.</p>
         </>
       )}
 
       {!isConfirmed && !isCancelled && timedOut && (
         <>
-          <Clock size={56} className="text-amber-500 mb-4" />
-          <h1 className="text-xl font-bold text-white">Still waiting on payment</h1>
-          <p className="text-neutral-400 mt-2">If you completed payment, check again below.</p>
+          <Clock size={56} className="text-orange-600 mb-4" />
+          <h1 className="text-xl font-bold text-red-900">Still waiting on payment</h1>
+          <p className="text-neutral-500 mt-2">If you completed payment, check again below.</p>
           <button
             type="button"
             onClick={handleRetryCheck}
@@ -126,30 +126,30 @@ export default function OrderConfirmationPage() {
 
       {isCancelled && (
         <>
-          <XCircle size={56} className="text-red-500 mb-4" />
-          <h1 className="text-xl font-bold text-white">Order cancelled</h1>
+          <XCircle size={56} className="text-red-600 mb-4" />
+          <h1 className="text-xl font-bold text-red-900">Order cancelled</h1>
         </>
       )}
 
-      <div className="w-full max-w-sm mt-8 rounded-xl bg-neutral-900 p-4 text-left space-y-2">
+      <div className="w-full max-w-sm mt-8 rounded-xl bg-neutral-50 border border-neutral-200 p-4 text-left space-y-2">
         {order.items.map((item, idx) => (
           <div key={idx} className="flex items-center justify-between text-sm">
-            <span className="text-white/80">
+            <span className="text-neutral-600">
               {item.quantity} × {item.name}
             </span>
-            <span className="text-white">₵{(Number(item.price) * item.quantity).toFixed(2)}</span>
+            <span className="text-neutral-900">₵{(Number(item.price) * item.quantity).toFixed(2)}</span>
           </div>
         ))}
-        <div className="flex items-center justify-between pt-2 border-t border-neutral-800">
-          <span className="text-white font-semibold">Total</span>
-          <span className="text-white font-bold">₵{Number(order.subtotal).toFixed(2)}</span>
+        <div className="flex items-center justify-between pt-2 border-t border-neutral-200">
+          <span className="text-red-900 font-semibold">Total</span>
+          <span className="text-red-900 font-bold">₵{Number(order.subtotal).toFixed(2)}</span>
         </div>
       </div>
 
       <button
         type="button"
         onClick={handleBackToMenu}
-        className="h-12 px-6 mt-6 rounded-xl bg-neutral-900 border border-neutral-800 text-white font-semibold text-base active:scale-[0.98] transition"
+        className="h-12 px-6 mt-6 rounded-xl bg-white border border-neutral-200 text-red-900 font-semibold text-base active:scale-[0.98] transition"
       >
         Back to menu
       </button>

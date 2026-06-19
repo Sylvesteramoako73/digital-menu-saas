@@ -26,14 +26,16 @@ export default function ItemDetailPage() {
     handleBack();
   }
 
+  const hasDiscount = item ? item.original_price !== null && Number(item.original_price) > Number(item.price) : false;
+
   if (loading || !menu) {
     return (
-      <div className="min-h-screen bg-black animate-pulse">
-        <div className="aspect-[4/3] w-full bg-neutral-800" />
+      <div className="min-h-screen bg-white animate-pulse">
+        <div className="aspect-[4/3] w-full bg-neutral-200" />
         <div className="px-4 pt-4 space-y-3">
-          <div className="h-6 w-2/3 rounded bg-neutral-800" />
-          <div className="h-4 w-full rounded bg-neutral-800" />
-          <div className="h-4 w-1/3 rounded bg-neutral-800" />
+          <div className="h-6 w-2/3 rounded bg-neutral-200" />
+          <div className="h-4 w-full rounded bg-neutral-200" />
+          <div className="h-4 w-1/3 rounded bg-neutral-200" />
         </div>
       </div>
     );
@@ -41,8 +43,8 @@ export default function ItemDetailPage() {
 
   if (error || !item) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 gap-4">
-        <p className="text-neutral-400 text-center">Item not found.</p>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 gap-4">
+        <p className="text-neutral-500 text-center">Item not found.</p>
         <button
           type="button"
           onClick={handleBack}
@@ -55,22 +57,22 @@ export default function ItemDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black pb-safe-offset">
+    <div className="min-h-screen bg-white pb-safe-offset">
       <div className="relative">
-        <div className="aspect-[4/3] w-full bg-neutral-800 overflow-hidden">
+        <div className="aspect-[4/3] w-full bg-neutral-100 overflow-hidden">
           {item.image_url && (
             <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
           )}
         </div>
         {!item.is_available && (
-          <span className="absolute bottom-3 left-4 rounded-full bg-black/90 text-white text-xs font-semibold px-3 py-1">
+          <span className="absolute bottom-3 left-4 rounded-full bg-black/80 text-white text-xs font-semibold px-3 py-1">
             Unavailable
           </span>
         )}
         <button
           type="button"
           onClick={handleBack}
-          className="absolute top-3 left-3 h-12 w-12 flex items-center justify-center rounded-full bg-black/80 text-white"
+          className="absolute top-3 left-3 h-12 w-12 flex items-center justify-center rounded-full bg-black/60 text-white"
           aria-label="Back to menu"
         >
           <ArrowLeft size={22} />
@@ -78,14 +80,19 @@ export default function ItemDetailPage() {
       </div>
 
       <div className="px-4 pt-4 pb-28">
-        <h1 className="text-xl font-bold text-white">{item.name}</h1>
+        <h1 className="text-xl font-bold text-red-900">{item.name}</h1>
         {item.description && (
-          <p className="text-base text-neutral-300 mt-2 leading-relaxed">{item.description}</p>
+          <p className="text-base text-neutral-600 mt-2 leading-relaxed">{item.description}</p>
         )}
-        <p className="text-2xl font-bold text-white mt-4">₵{Number(item.price).toFixed(2)}</p>
+        <div className="flex items-baseline gap-2 mt-4">
+          <p className="text-2xl font-bold text-orange-700">₵{Number(item.price).toFixed(2)}</p>
+          {hasDiscount && (
+            <p className="text-neutral-400 text-base line-through">₵{Number(item.original_price).toFixed(2)}</p>
+          )}
+        </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 px-4 pt-3 pb-safe-offset bg-black border-t border-neutral-900 flex items-center gap-3">
+      <div className="fixed bottom-0 left-0 right-0 px-4 pt-3 pb-safe-offset bg-white border-t border-neutral-200 flex items-center gap-3">
         <QuantityStepper quantity={quantity} onChange={setQuantity} min={1} />
         <button
           type="button"

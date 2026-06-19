@@ -5,9 +5,16 @@ import { requireAuth } from "../middleware/requireAuth";
 const router = Router();
 
 router.post("/", requireAuth, async (req, res) => {
-  const { category_id, name, description, price, image_url } = req.body;
+  const { category_id, name, description, price, original_price, image_url } = req.body;
   if (!category_id || !name || price === undefined) {
     return res.status(400).json({ success: false, data: null, error: "category_id, name and price are required" });
+  }
+  if (original_price !== undefined && original_price !== null && Number(original_price) <= Number(price)) {
+    return res.status(400).json({
+      success: false,
+      data: null,
+      error: "original_price must be greater than price",
+    });
   }
 
   try {
@@ -20,9 +27,9 @@ router.post("/", requireAuth, async (req, res) => {
     }
 
     const result = await pool.query(
-      `INSERT INTO menu_items (category_id, name, description, price, image_url)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [category_id, name, description ?? null, price, image_url ?? null]
+      `INSERT INTO menu_items (category_id, name, description, price, original_price, image_url)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [category_id, name, description ?? null, price, original_price ?? null, image_url ?? null]
     );
     return res.status(201).json({ success: true, data: result.rows[0] });
   } catch (err) {

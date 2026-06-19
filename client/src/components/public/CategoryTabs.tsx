@@ -8,7 +8,7 @@ interface CategoryTabsProps {
 
 export default function CategoryTabs({ categories, activeId, onChange }: CategoryTabsProps) {
   return (
-    <div className="sticky top-0 z-10 bg-black border-b border-neutral-900">
+    <div className="sticky top-0 z-10 bg-white border-b border-neutral-200">
       <div className="flex gap-2 overflow-x-auto scroll-touch px-4 py-3">
         <Tab label="All" active={activeId === "all"} onClick={() => onChange("all")} />
         {categories.map((category) => (
@@ -32,7 +32,7 @@ function Tab({ label, active, onClick }: { label: string; active: boolean; onCli
       className={`h-10 px-4 shrink-0 whitespace-nowrap rounded-full text-sm font-medium transition active:scale-[0.98] ${
         active
           ? "bg-red-600 text-white"
-          : "bg-transparent text-neutral-400 border border-neutral-800"
+          : "bg-white text-neutral-600 border border-neutral-200"
       }`}
     >
       {label}

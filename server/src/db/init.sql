@@ -33,9 +33,15 @@ CREATE TABLE IF NOT EXISTS menu_items (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   price NUMERIC(10,2) NOT NULL,
+  original_price NUMERIC(10,2),
   image_url TEXT,
-  is_available BOOLEAN DEFAULT TRUE
+  is_available BOOLEAN DEFAULT TRUE,
+  CONSTRAINT original_price_higher CHECK (original_price IS NULL OR original_price > price)
 );
+
+ALTER TABLE menu_items ADD COLUMN IF NOT EXISTS original_price NUMERIC(10,2);
+ALTER TABLE menu_items DROP CONSTRAINT IF EXISTS original_price_higher;
+ALTER TABLE menu_items ADD CONSTRAINT original_price_higher CHECK (original_price IS NULL OR original_price > price);
 
 CREATE TABLE IF NOT EXISTS orders (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

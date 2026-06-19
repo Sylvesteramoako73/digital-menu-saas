@@ -7,6 +7,7 @@ interface SeedItem {
   name: string;
   description: string;
   price: number;
+  original_price?: number;
   image_url: string;
   is_available?: boolean;
 }
@@ -52,7 +53,7 @@ const VENDORS: SeedVendor[] = [
         name: "Mains",
         description: "Hearty Ghanaian classics",
         items: [
-          { name: "Jollof Rice & Chicken", description: "Smoky party jollof with grilled chicken and salad", price: 45, image_url: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400" },
+          { name: "Jollof Rice & Chicken", description: "Smoky party jollof with grilled chicken and salad", price: 45, original_price: 55, image_url: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400" },
           { name: "Banku & Tilapia", description: "Fermented corn dough with grilled tilapia and pepper sauce", price: 55, image_url: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400" },
           { name: "Waakye Special", description: "Rice and beans with gari, spaghetti, egg and beef stew", price: 40, image_url: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400" },
         ],
@@ -128,9 +129,17 @@ async function seed() {
 
         for (const item of category.items) {
           await client.query(
-            `INSERT INTO menu_items (category_id, name, description, price, image_url, is_available)
-             VALUES ($1, $2, $3, $4, $5, $6)`,
-            [categoryId, item.name, item.description, item.price, item.image_url, item.is_available ?? true]
+            `INSERT INTO menu_items (category_id, name, description, price, original_price, image_url, is_available)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [
+              categoryId,
+              item.name,
+              item.description,
+              item.price,
+              item.original_price ?? null,
+              item.image_url,
+              item.is_available ?? true,
+            ]
           );
         }
       }

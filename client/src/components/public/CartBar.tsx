@@ -13,7 +13,7 @@ export default function CartBar({ slug }: { slug: string | null | undefined }) {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pt-3 pb-safe-offset bg-black/95 border-t border-neutral-900">
+    <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pt-3 pb-safe-offset bg-white border-t border-neutral-200">
       <button
         type="button"
         onClick={handleClick}
