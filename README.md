@@ -21,6 +21,34 @@ delivery app, not a website.
 /server   Express API + Postgres schema/seed scripts
 ```
 
+## Live deployment
+
+Deployed as two Vercel projects from this repo, with a Neon Postgres database
+(provisioned via Vercel's marketplace integration) attached to the server
+project:
+
+- **Client:** https://digital-menu-saas-client.vercel.app
+- **Server:** https://digital-menu-saas-server.vercel.app
+- **Try it:** https://digital-menu-saas-client.vercel.app/menu/welly-foods
+
+`server/src/app.ts` exports the Express app (no `app.listen`); `server/index.ts`
+wraps it with `.listen()` for local dev only, and `server/api/index.ts` is the
+Vercel serverless function entrypoint — Vercel auto-detected this as an
+"Express" project and runs the whole app as one function, with
+`server/vercel.json` rewriting every path to it so Express's own internal
+routing (including the raw-body Paystack webhook) works unmodified.
+`client/vercel.json` rewrites all paths to `index.html` for client-side
+routing (SPA fallback).
+
+This deployment runs in `TENANT_MODE=path` (no wildcard subdomain DNS is set
+up for a `*.vercel.app` domain). `PAYSTACK_SECRET_KEY` is not set on this
+deployment — see [Ordering & payments](#ordering--payments) below; ordering
+will 502 until it's added via `vercel env add PAYSTACK_SECRET_KEY production`
+in `server/`.
+
+To redeploy after changes: `vercel deploy --prod --yes` from `client/` or
+`server/` respectively (each is its own linked Vercel project).
+
 ---
 
 ## Environment variables
