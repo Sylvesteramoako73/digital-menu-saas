@@ -19,7 +19,7 @@ export default function MenuItemCard({ item, onClick }: MenuItemCardProps) {
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") onClick();
       }}
-      className={`flex flex-row gap-3 mx-4 mb-3 p-3 rounded-2xl bg-white shadow-sm border border-neutral-100 active:scale-[0.98] transition cursor-pointer ${
+      className={`flex flex-row gap-3 mx-4 mb-3 p-3 rounded-2xl bg-white shadow-md active:scale-[0.98] transition cursor-pointer ${
         item.is_available ? "" : "opacity-50"
       }`}
     >

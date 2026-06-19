@@ -1,6 +1,6 @@
 export default function MenuItemSkeleton() {
   return (
-    <div className="flex flex-row gap-3 mx-4 mb-3 p-3 rounded-2xl bg-white shadow-sm border border-neutral-100 animate-pulse">
+    <div className="flex flex-row gap-3 mx-4 mb-3 p-3 rounded-2xl bg-white shadow-md animate-pulse">
       <div className="aspect-square w-24 rounded-xl bg-neutral-200 shrink-0" />
       <div className="flex flex-col justify-between min-w-0 flex-1 py-1">
         <div>

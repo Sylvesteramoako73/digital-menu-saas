@@ -40,14 +40,14 @@ export default function PublicMenuPage({ slug: slugProp }: { slug?: string }) {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center px-4">
-        <p className="text-neutral-500 text-center">Menu not found.</p>
+      <div className="min-h-screen bg-red-700 flex items-center justify-center px-4">
+        <p className="text-white/80 text-center">Menu not found.</p>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen bg-neutral-100 pb-safe-offset ${count > 0 ? "pb-24" : ""}`}>
+    <div className={`min-h-screen bg-red-700 pb-safe-offset ${count > 0 ? "pb-24" : ""}`}>
       {loading || !menu ? (
         <div className="animate-pulse">
           <div className="bg-white px-4 pt-6 pb-4">
@@ -66,13 +66,13 @@ export default function PublicMenuPage({ slug: slugProp }: { slug?: string }) {
           <CategoryTabs categories={menu.categories} activeId={activeId} onChange={setActiveId} />
 
           <div className="px-4 pt-4">
-            <h2 className="text-lg font-semibold text-red-900">{heading}</h2>
-            {description && <p className="text-sm text-neutral-500 mt-0.5">{description}</p>}
+            <h2 className="text-lg font-semibold text-white">{heading}</h2>
+            {description && <p className="text-sm text-white/80 mt-0.5">{description}</p>}
           </div>
 
           <div className="mt-2">
             {items.length === 0 ? (
-              <p className="text-sm text-neutral-500 px-4 py-8 text-center">No items in this category yet.</p>
+              <p className="text-sm text-white/80 px-4 py-8 text-center">No items in this category yet.</p>
             ) : (
               items.map((item) => (
                 <MenuItemCard key={item.id} item={item} onClick={() => openItem(item.id)} />
